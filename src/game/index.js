@@ -32,18 +32,13 @@ function setUpControls(config) {
   document.addEventListener("keydown", keyHandler, false);
 }
 
-var something = 1;
-
 function gameLoop(ctx, assets, store) {
   if (true) {
     requestAnimationFrame(() => gameLoop(ctx, assets, store));
   }
   const state = store.getState();
   draw(ctx, assets, state);
-  something++;
   store.dispatch({ type: GAME_TICK });
 }
 
-function draw(ctx, assets, state) {
-  ctx.drawImage(assets.images.blocks.red, something, 40, 50, 50);
-}
+function draw(ctx, assets, state) {}
