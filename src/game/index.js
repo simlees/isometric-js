@@ -1,9 +1,12 @@
 import * as configUtils from "../utils/configUtils";
+import { loadAssets } from "../utils/assetUtils";
 
 export default function(config) {
-  const ctx = setUpCanvas(config);
-  setUpControls(config);
-  draw(ctx);
+  loadAssets(config.assets).then(assets => {
+    const ctx = setUpCanvas(config);
+    setUpControls(config);
+    draw(ctx, assets);
+  });
 }
 
 function setUpCanvas(config) {
@@ -30,16 +33,18 @@ function setUpControls(config) {
 
 var something = 1;
 
-function draw(ctx) {
+function draw(ctx, assets) {
   if (true) {
-    requestAnimationFrame(() => draw(ctx));
+    requestAnimationFrame(() => draw(ctx, assets));
   }
-  ctx.clearRect(0, 0, 640, 480);
-  ctx.beginPath();
-  ctx.rect(something, 40, 50, 50);
-  ctx.fillStyle = "#FF0000";
-  ctx.fill();
-  ctx.closePath();
+  // ctx.clearRect(0, 0, 640, 480);
+  // ctx.beginPath();
+  // ctx.rect(something, 40, 50, 50);
+  // ctx.fillStyle = "#FF0000";
+  // ctx.fill();
+  // ctx.closePath();
+
+  ctx.drawImage(assets.images.blocks.red, something, 40, 50, 50);
 
   something++;
 }
