@@ -1,5 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import Game from "components/Game";
+import configureStore from "./configureStore";
 
-ReactDOM.render(<Game />, document.getElementById("root"));
+const store = configureStore();
+
+ReactDOM.render(<Game store={store} />, document.getElementById("root"));

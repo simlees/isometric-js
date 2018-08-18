@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Provider } from "react-redux";
 import styled from "styled-components";
 import runGame from "../game";
 import config from "../config";
@@ -9,14 +10,22 @@ const CanvasWrapper = styled.div`
 `;
 
 class Game extends Component {
-  start() {
-    runGame(config);
+  constructor(props) {
+    super(props);
+    this.start = this.start.bind(this);
   }
+
+  start() {
+    runGame(config, this.props.store);
+  }
+
   render() {
     return (
-      <CanvasWrapper>
-        <Canvas onReady={this.start} />
-      </CanvasWrapper>
+      <Provider store={this.props.store}>
+        <CanvasWrapper>
+          <Canvas onReady={this.start} />
+        </CanvasWrapper>
+      </Provider>
     );
   }
 }
