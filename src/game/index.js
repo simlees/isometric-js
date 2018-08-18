@@ -6,7 +6,7 @@ export default function(config, store) {
   loadAssets(config.assets).then(assets => {
     const ctx = setUpCanvas(config);
     setUpControls(config);
-    draw(ctx, assets, store);
+    gameLoop(ctx, assets, store);
   });
 }
 
@@ -34,28 +34,16 @@ function setUpControls(config) {
 
 var something = 1;
 
-function draw(ctx, assets, store) {
+function gameLoop(ctx, assets, store) {
   if (true) {
-    requestAnimationFrame(() => draw(ctx, assets, store));
+    requestAnimationFrame(() => gameLoop(ctx, assets, store));
   }
   const state = store.getState();
-  // ctx.clearRect(0, 0, 640, 480);
-  // ctx.beginPath();
-  // ctx.rect(something, 40, 50, 50);
-  // ctx.fillStyle = "#FF0000";
-  // ctx.fill();
-  // ctx.closePath();
-
-  ctx.drawImage(assets.images.blocks.red, something, 40, 50, 50);
-
+  draw(ctx, assets, state);
   something++;
-
   store.dispatch({ type: GAME_TICK });
 }
 
-// function mouseMoveHandler(e) {
-//   var relativeX = e.clientX - canvas.offsetLeft;
-//   if (relativeX > 0 && relativeX < canvas.width) {
-//     paddleX = relativeX - paddleWidth / 2;
-//   }
-// }
+function draw(ctx, assets, state) {
+  ctx.drawImage(assets.images.blocks.red, something, 40, 50, 50);
+}

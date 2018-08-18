@@ -4,7 +4,7 @@ import { fromJS } from "immutable";
 // // RESUME_TICK
 // "../constants/actionTypes";
 
-const initialState = fromJS({});
+const initialState = fromJS([[1, 1, 1], [1, 1, 1], [1, 1, 1]]);
 
 export default function world(state = initialState, action) {
   switch (action.type) {
