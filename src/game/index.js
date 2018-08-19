@@ -2,8 +2,9 @@ import * as configUtils from "../utils/configUtils";
 import { loadAssets } from "../utils/assetUtils";
 import { GAME_TICK } from "../constants/actionTypes";
 import { getWorld, getWorldSize } from "../selectors/worldSelectors";
+import { getCameraOffset } from "../selectors/cameraSelectors";
 
-let _assets, _ctx, _store, _config;
+let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight;
 
 export default function(config, store) {
   _config = config;
@@ -17,6 +18,8 @@ export default function(config, store) {
 }
 
 function setUpCanvas() {
+  _canvasWidth = _config.view.canvasWidth;
+  _canvasHeight = _config.view.canvasHeight;
   const canvas = document.getElementById("game-canvas");
   return canvas.getContext("2d");
 }
@@ -26,10 +29,10 @@ function setUpControls() {
   const keyHandler = e => {
     const action = keyMap[e.keyCode];
     if (action) {
-      // dispatch({
-      //   type: action,
-      //   isPressed: e.type === "keydown"
-      // });
+      _store.dispatch({
+        type: action,
+        isPressed: e.type === "keydown"
+      });
     }
   };
   // document.addEventListener("mousemove", mouseMoveHandler, false);
@@ -39,9 +42,9 @@ function setUpControls() {
 }
 
 function gameLoop() {
-  // if (true) {
-  //   requestAnimationFrame(() => gameLoop());
-  // }
+  if (true) {
+    requestAnimationFrame(() => gameLoop());
+  }
   const state = _store.getState();
   draw(state);
   _store.dispatch({ type: GAME_TICK });
@@ -52,13 +55,12 @@ var width, height, tileWidth, tileHeight;
 function draw(state) {
   const world = getWorld(state);
   const [worldWidth, worldHeight] = getWorldSize(state);
-  width = _config.view.canvasWidth;
-  height = _config.view.canvasHeight;
-  _ctx.clearRect(0, 0, width, height);
+  _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
   tileWidth = 100;
   tileHeight = 50;
   _ctx.save();
-  _ctx.translate(width / 2, 100);
+  const [xOffset, yOffset] = getCameraOffset(state);
+  _ctx.translate(_canvasWidth / 2 + xOffset, 100 + yOffset);
   for (let x = 0; x < worldWidth; x++) {
     for (let y = 0; y < worldHeight; y++) {
       drawTile(x, y, world.getIn([x, y]));
