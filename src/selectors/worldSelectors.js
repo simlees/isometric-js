@@ -1,7 +1,7 @@
 import { createSelector } from "reselect";
 
-const getWorld = state => state.world;
+export const getWorld = state => state.world;
 
 export const getWorldSize = createSelector(getWorld, world => {
-  debugger;
+  return [world.size, world.get(0).size];
 });
