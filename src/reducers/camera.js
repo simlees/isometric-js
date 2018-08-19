@@ -4,6 +4,8 @@ import {
   CAMERA_LEFT,
   CAMERA_RIGHT,
   CAMERA_UP,
+  CAMERA_ROTATE_CLOCKWISE,
+  CAMERA_ROTATE_COUNTER_CLOCKWISE,
   GAME_TICK
 } from "../constants/actionTypes";
 import { getCameraMovementVector } from "../selectors/cameraSelectors";
@@ -11,7 +13,7 @@ import { getCameraMovementVector } from "../selectors/cameraSelectors";
 const initialState = fromJS({
   xPos: 0,
   yPos: 0,
-  direction: "NW",
+  rotation: 0, // NORTHWEST
   zoom: 10,
   isMoving: {
     left: false,
@@ -34,6 +36,16 @@ export default function camera(state = initialState, action) {
     }
     case CAMERA_DOWN: {
       return state.setIn(["isMoving", "down"], action.isPressed);
+    }
+    case CAMERA_ROTATE_CLOCKWISE: {
+      return !action.isPressed
+        ? state.update("rotation", rotation => (rotation + 1) % 4)
+        : state;
+    }
+    case CAMERA_ROTATE_COUNTER_CLOCKWISE: {
+      return !action.isPressed
+        ? state.update("rotation", rotation => (rotation + 3) % 4)
+        : state;
     }
     case GAME_TICK: {
       const [x, y] = getCameraMovementVector(state);

@@ -4,6 +4,11 @@ export const getCamera = state => state.camera;
 
 export const getCameraIsMoving = camera => camera.get("isMoving");
 
+const createCameraSelector = setting =>
+  createSelector([getCamera], camera => camera.get(setting));
+
+export const getCameraRotation = createCameraSelector("rotation");
+
 export const getCameraMovementVector = createSelector(
   [getCameraIsMoving],
   isMoving => {

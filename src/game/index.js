@@ -2,7 +2,11 @@ import * as configUtils from "../utils/configUtils";
 import { loadAssets } from "../utils/assetUtils";
 import { GAME_TICK } from "../constants/actionTypes";
 import { getWorld, getWorldSize } from "../selectors/worldSelectors";
-import { getCameraOffset } from "../selectors/cameraSelectors";
+import {
+  getCameraOffset,
+  getCameraRotation
+} from "../selectors/cameraSelectors";
+import { getTileCoords } from "../utils/worldUtils";
 
 let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight;
 
@@ -55,15 +59,21 @@ var width, height, tileWidth, tileHeight;
 function draw(state) {
   const world = getWorld(state);
   const [worldWidth, worldHeight] = getWorldSize(state);
+  const rotation = getCameraRotation(state);
   _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
   tileWidth = 100;
   tileHeight = 50;
   _ctx.save();
   const [xOffset, yOffset] = getCameraOffset(state);
   _ctx.translate(_canvasWidth / 2 + xOffset, 100 + yOffset);
-  for (let x = 0; x < worldWidth; x++) {
-    for (let y = 0; y < worldHeight; y++) {
-      drawTile(x, y, world.getIn([x, y]));
+
+  for (let x = 0; x < (rotation % 2 ? worldHeight : worldWidth); x++) {
+    for (let y = 0; y < (rotation % 2 ? worldWidth : worldHeight); y++) {
+      drawTile(
+        x,
+        y,
+        world.getIn(getTileCoords(x, y, worldWidth, worldHeight, rotation))
+      );
     }
   }
   _ctx.restore();
