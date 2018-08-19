@@ -7,6 +7,7 @@ import Canvas from "./Canvas";
 
 const CanvasWrapper = styled.div`
   background-color: blue;
+  display: inline-block;
 `;
 
 class Game extends Component {
@@ -20,10 +21,15 @@ class Game extends Component {
   }
 
   render() {
+    const { canvasWidth, canvasHeight } = config.view;
     return (
       <Provider store={this.props.store}>
         <CanvasWrapper>
-          <Canvas onReady={this.start} />
+          <Canvas
+            onReady={this.start}
+            width={canvasWidth}
+            height={canvasHeight}
+          />
         </CanvasWrapper>
       </Provider>
     );

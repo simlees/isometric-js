@@ -6,6 +6,7 @@ export default class Canvas extends Component {
   }
 
   render() {
-    return <canvas id="game-canvas" width="640" height="480" />;
+    const { width, height } = this.props;
+    return <canvas id="game-canvas" width={width} height={height} />;
   }
 }

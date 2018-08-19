@@ -4,7 +4,16 @@ import { fromJS } from "immutable";
 // // RESUME_TICK
 // "../constants/actionTypes";
 
-const initialState = fromJS({});
+const initialState = fromJS([
+  [1, 1, "blockShort", 1, "blockTall", 1],
+  ["blockTall", 1, "blockShort", 1, "blockShort", "tile"],
+  [1, 1, "block", 1, "blockTall", 1],
+  ["block", "tile", "block", 1, "blockTall", 1][
+    (1, 1, "blockShort", 1, "blockTall", 1)
+  ],
+  ["block", "tile", "block", 1, "blockShort", "blockShort"],
+  ["block", "tile", "block", 1, "blockTall", 1]
+]);
 
 export default function world(state = initialState, action) {
   switch (action.type) {
