@@ -1,10 +1,10 @@
-import { combineReducers } from "redux";
-import camera from "./camera";
-import world from "./world";
+import { combineReducers } from 'redux';
+import camera from './camera';
+import world from './world';
 
 const rootReducer = combineReducers({
   world,
-  camera
+  camera,
 });
 
 export default rootReducer;

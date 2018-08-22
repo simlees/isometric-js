@@ -1,9 +1,9 @@
-import React, { Component } from "react";
-import { Provider } from "react-redux";
-import styled from "styled-components";
-import runGame from "../game";
-import config from "../config";
-import Canvas from "./Canvas";
+import React, { Component } from 'react';
+import { Provider } from 'react-redux';
+import styled from 'styled-components';
+import runGame from '../game';
+import config from '../config';
+import Canvas from './Canvas';
 
 const CanvasWrapper = styled.div`
   background-color: blue;

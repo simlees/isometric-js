@@ -1,7 +1,7 @@
-import * as ASSET_TYPES from "../constants/assetTypes";
+import * as ASSET_TYPES from '../constants/assetTypes';
 
 const handlers = {
-  [ASSET_TYPES.IMAGES]: loadImage
+  [ASSET_TYPES.IMAGES]: loadImage,
 };
 
 export function loadAssets(assetConfig) {
@@ -16,12 +16,12 @@ export function loadAssets(assetConfig) {
 
 function resolveTree(node, handler, promises) {
   Object.entries(node).forEach(([key, value]) => {
-    if (typeof value === "string") {
+    if (typeof value === 'string') {
       const assetPromise = handler(value);
       assetPromise.then(result => (node[key] = result));
       promises.push(assetPromise);
     }
-    if (typeof value === "object") {
+    if (typeof value === 'object') {
       resolveTree(value, handler, promises);
     }
   });
@@ -31,7 +31,7 @@ function loadImage(path) {
   return new Promise(resolve => {
     const img = new Image();
     img.addEventListener(
-      "load",
+      'load',
       function() {
         resolve(img);
       },

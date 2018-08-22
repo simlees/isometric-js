@@ -1,13 +1,13 @@
-import { createSelector } from "reselect";
+import { createSelector } from 'reselect';
 
 export const getCamera = state => state.camera;
 
-export const getCameraIsMoving = camera => camera.get("isMoving");
+export const getCameraIsMoving = camera => camera.get('isMoving');
 
 const createCameraSelector = setting =>
   createSelector([getCamera], camera => camera.get(setting));
 
-export const getCameraRotation = createCameraSelector("rotation");
+export const getCameraRotation = createCameraSelector('rotation');
 
 export const getCameraMovementVector = createSelector(
   [getCameraIsMoving],
@@ -15,16 +15,16 @@ export const getCameraMovementVector = createSelector(
     let x = 0;
     let y = 0;
     const movementSpeed = 3;
-    if (isMoving.get("left")) {
+    if (isMoving.get('left')) {
       x += movementSpeed;
     }
-    if (isMoving.get("up")) {
+    if (isMoving.get('up')) {
       y += movementSpeed;
     }
-    if (isMoving.get("right")) {
+    if (isMoving.get('right')) {
       x -= movementSpeed;
     }
-    if (isMoving.get("down")) {
+    if (isMoving.get('down')) {
       y -= movementSpeed;
     }
     return [x, y];
@@ -32,6 +32,6 @@ export const getCameraMovementVector = createSelector(
 );
 
 export const getCameraOffset = createSelector([getCamera], camera => [
-  camera.get("xPos"),
-  camera.get("yPos")
+  camera.get('xPos'),
+  camera.get('yPos'),
 ]);

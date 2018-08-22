@@ -1,4 +1,4 @@
 export default {
   canvasWidth: 800,
-  canvasHeight: 480
+  canvasHeight: 480,
 };

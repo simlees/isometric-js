@@ -1,12 +1,12 @@
-import * as configUtils from "../utils/configUtils";
-import { loadAssets } from "../utils/assetUtils";
-import { GAME_TICK } from "../constants/actionTypes";
-import { getWorld, getWorldSize } from "../selectors/worldSelectors";
+import * as configUtils from '../utils/configUtils';
+import { loadAssets } from '../utils/assetUtils';
+import { GAME_TICK } from '../constants/actionTypes';
+import { getWorld, getWorldSize } from '../selectors/worldSelectors';
 import {
   getCameraOffset,
-  getCameraRotation
-} from "../selectors/cameraSelectors";
-import { getTileCoords } from "../utils/worldUtils";
+  getCameraRotation,
+} from '../selectors/cameraSelectors';
+import { getTileCoords } from '../utils/worldUtils';
 
 let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight;
 
@@ -24,8 +24,8 @@ export default function(config, store) {
 function setUpCanvas() {
   _canvasWidth = _config.view.canvasWidth;
   _canvasHeight = _config.view.canvasHeight;
-  const canvas = document.getElementById("game-canvas");
-  return canvas.getContext("2d");
+  const canvas = document.getElementById('game-canvas');
+  return canvas.getContext('2d');
 }
 
 function setUpControls() {
@@ -35,14 +35,14 @@ function setUpControls() {
     if (action) {
       _store.dispatch({
         type: action,
-        isPressed: e.type === "keydown"
+        isPressed: e.type === 'keydown',
       });
     }
   };
   // document.addEventListener("mousemove", mouseMoveHandler, false);
 
-  document.addEventListener("keyup", keyHandler, false);
-  document.addEventListener("keydown", keyHandler, false);
+  document.addEventListener('keyup', keyHandler, false);
+  document.addEventListener('keydown', keyHandler, false);
 }
 
 function gameLoop() {
@@ -101,7 +101,7 @@ function drawTile(x, y, tile) {
     _ctx.lineTo(0, tileHeight);
     _ctx.lineTo(-tileWidth / 2, tileHeight / 2);
     _ctx.closePath();
-    _ctx.fillStyle = "red";
+    _ctx.fillStyle = 'red';
     _ctx.fill();
   }
 
