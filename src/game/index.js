@@ -54,7 +54,7 @@ function gameLoop() {
   _store.dispatch({ type: GAME_TICK });
 }
 
-var width, height, tileWidth, tileHeight;
+var tileWidth, tileHeight;
 
 function draw(state) {
   const world = getWorld(state);
