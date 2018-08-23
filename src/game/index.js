@@ -5,6 +5,7 @@ import { getWorld, getWorldSize } from '../selectors/worldSelectors';
 import {
   getCameraOffset,
   getCameraRotation,
+  getCameraZoom,
 } from '../selectors/cameraSelectors';
 import { getTileCoords } from '../utils/worldUtils';
 
@@ -59,10 +60,11 @@ var tileWidth, tileHeight;
 function draw(state) {
   const world = getWorld(state);
   const [worldWidth, worldHeight] = getWorldSize(state);
+  const zoom = getCameraZoom(state);
   const rotation = getCameraRotation(state);
   _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
-  tileWidth = 100;
-  tileHeight = 50;
+  tileWidth = zoom;
+  tileHeight = zoom / 2;
   _ctx.save();
   const [xOffset, yOffset] = getCameraOffset(state);
   _ctx.translate(_canvasWidth / 2 + xOffset, 100 + yOffset);

@@ -8,6 +8,7 @@ const createCameraSelector = setting =>
   createSelector([getCamera], camera => camera.get(setting));
 
 export const getCameraRotation = createCameraSelector('rotation');
+export const getCameraZoom = createCameraSelector('zoom');
 
 export const getCameraMovementVector = createSelector(
   [getCameraIsMoving],
