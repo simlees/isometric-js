@@ -8,5 +8,8 @@ export default {
       blockTall: 'dia3.png',
       blockShort: 'dia4.png',
     },
+    ui: {
+      cursor: 'cursor.png',
+    },
   },
 };

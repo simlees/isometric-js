@@ -28,12 +28,19 @@ function resolveTree(node, handler, promises) {
 }
 
 function loadImage(path) {
-  return new Promise(resolve => {
+  return new Promise((resolve, reject) => {
     const img = new Image();
     img.addEventListener(
       'load',
       function() {
         resolve(img);
+      },
+      false
+    );
+    img.addEventListener(
+      'error',
+      function() {
+        throw `Couldn't resolve asset at path ${path}`;
       },
       false
     );

@@ -8,6 +8,7 @@ import {
   CAMERA_ROTATE_COUNTER_CLOCKWISE,
   GAME_TICK,
   CAMERA_CYCLE_ZOOM,
+  MOUSE_MOVE,
 } from '../constants/actionTypes';
 import { getCameraMovementVector } from '../selectors/cameraSelectors';
 import config from '../config';
@@ -23,6 +24,8 @@ const initialState = fromJS({
     right: false,
     down: false,
   },
+  mouseX: config.view.canvasWidth / 2,
+  mouseY: config.view.canvasHeight / 2,
 });
 
 const holdableActions = [CAMERA_LEFT, CAMERA_UP, CAMERA_RIGHT, CAMERA_DOWN];
@@ -68,6 +71,40 @@ export default function camera(state = initialState, action) {
       const [x, y] = getCameraMovementVector(state);
       state = state.update('xPos', xPos => xPos + x);
       return state.update('yPos', yPos => yPos + y);
+    }
+    case MOUSE_MOVE: {
+      const { x, y } = action;
+      // state = state.update('mouseX', mouseX => mouseX + x);
+      // return state.update('mouseY', mouseY => mouseY + y);
+
+      return state.withMutations(map => {
+        const { canvasWidth, canvasHeight } = config.view;
+        let newMouseX = map.get('mouseX') + x;
+        let newMouseY = map.get('mouseY') + y;
+        let cameraMoveX = 0;
+        let cameraMoveY = 0;
+        if (newMouseX > canvasWidth) {
+          cameraMoveX = newMouseX - canvasWidth;
+          newMouseX = canvasWidth;
+        }
+        if (newMouseX < 0) {
+          cameraMoveX = newMouseX;
+          newMouseX = 0;
+        }
+        if (newMouseY > canvasHeight) {
+          cameraMoveY = newMouseY - canvasHeight;
+          newMouseY = canvasHeight;
+        }
+        if (newMouseY < 0) {
+          cameraMoveY = newMouseY;
+          newMouseY = 0;
+        }
+        map.set('mouseX', newMouseX);
+        map.set('mouseY', newMouseY);
+        console.log(cameraMoveX, cameraMoveY);
+        map.update('xPos', xPos => xPos - cameraMoveX);
+        map.update('yPos', yPos => yPos - cameraMoveY);
+      });
     }
     default:
       return state;

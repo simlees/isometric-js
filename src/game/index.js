@@ -1,15 +1,18 @@
 import * as configUtils from '../utils/configUtils';
 import { loadAssets } from '../utils/assetUtils';
-import { GAME_TICK } from '../constants/actionTypes';
+import { GAME_TICK, MOUSE_MOVE, MOUSE_CLICK } from '../constants/actionTypes';
 import { getWorld, getWorldSize } from '../selectors/worldSelectors';
 import {
   getCameraOffset,
   getCameraRotation,
   getCameraZoom,
+  getMouseX,
+  getMouseY,
 } from '../selectors/cameraSelectors';
 import { getTileCoords } from '../utils/worldUtils';
+import { cartesianToIsometric, isometricToCartesian } from '../utils/viewUtils';
 
-let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight;
+let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight, _canvas;
 
 export default function(config, store) {
   _config = config;
@@ -25,8 +28,9 @@ export default function(config, store) {
 function setUpCanvas() {
   _canvasWidth = _config.view.canvasWidth;
   _canvasHeight = _config.view.canvasHeight;
-  const canvas = document.getElementById('game-canvas');
-  return canvas.getContext('2d');
+
+  _canvas = document.getElementById('game-canvas');
+  return _canvas.getContext('2d');
 }
 
 function setUpControls() {
@@ -41,6 +45,29 @@ function setUpControls() {
     }
   };
   // document.addEventListener("mousemove", mouseMoveHandler, false);
+
+  _canvas.requestPointerLock =
+    _canvas.requestPointerLock || _canvas.mozRequestPointerLock;
+  document.exitPointerLock =
+    document.exitPointerLock || document.mozExitPointerLock;
+  _canvas.onclick = () => _canvas.requestPointerLock();
+
+  const onMouseMove = e => {
+    const { movementX: x, movementY: y } = e;
+    _store.dispatch({ type: MOUSE_MOVE, x, y });
+  };
+
+  document.addEventListener(
+    'pointerlockchange',
+    () => {
+      if (document.pointerLockElement === _canvas) {
+        document.addEventListener('mousemove', onMouseMove, false);
+      } else {
+        document.removeEventListener('mousemove', onMouseMove, false);
+      }
+    },
+    false
+  );
 
   document.addEventListener('keyup', keyHandler, false);
   document.addEventListener('keydown', keyHandler, false);
@@ -61,6 +88,14 @@ function draw(state) {
   const world = getWorld(state);
   const [worldWidth, worldHeight] = getWorldSize(state);
   const zoom = getCameraZoom(state);
+  const mouseX = getMouseX(state);
+  const mouseY = getMouseY(state);
+
+  const p = {
+    cartesianToIsometric,
+    isometricToCartesian,
+  };
+
   const rotation = getCameraRotation(state);
   _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
   tileWidth = zoom;
@@ -78,7 +113,12 @@ function draw(state) {
       );
     }
   }
+
   _ctx.restore();
+
+  if (document.pointerLockElement === _canvas) {
+    _ctx.drawImage(_assets.images.ui.cursor, mouseX, mouseY, 28, 33);
+  }
 }
 
 function drawTile(x, y, tile) {
