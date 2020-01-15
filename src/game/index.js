@@ -1,7 +1,4 @@
-import * as configUtils from '../utils/configUtils';
-import { loadAssets } from '../utils/assetUtils';
-import { GAME_TICK, MOUSE_MOVE, MOUSE_CLICK } from '../constants/actionTypes';
-import { getWorld, getWorldSize } from '../selectors/worldSelectors';
+import { GAME_TICK, MOUSE_MOVE } from '../constants/actionTypes';
 import {
   getCameraOffset,
   getCameraRotation,
@@ -9,6 +6,9 @@ import {
   getMouseX,
   getMouseY,
 } from '../selectors/cameraSelectors';
+import { getWorld, getWorldSize } from '../selectors/worldSelectors';
+import { loadAssets } from '../utils/assetUtils';
+import * as configUtils from '../utils/configUtils';
 import { getTileCoords } from '../utils/worldUtils';
 
 let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight, _canvas;
