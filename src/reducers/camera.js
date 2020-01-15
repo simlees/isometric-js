@@ -73,26 +73,14 @@ export default function camera(state = initialState, action) {
     }
     case MOUSE_MOVE: {
       const { x, y } = action;
-
-      return state.withMutations(map => {
-        const { canvasWidth, canvasHeight } = config.view;
-        let newMouseX = map.get('mouseX') + x;
-        let newMouseY = map.get('mouseY') + y;
-        if (newMouseX >= canvasWidth) {
-          newMouseX = canvasWidth;
-        }
-        if (newMouseX < 0) {
-          newMouseX = 0;
-        }
-        if (newMouseY > canvasHeight) {
-          newMouseY = canvasHeight;
-        }
-        if (newMouseY < 0) {
-          newMouseY = 0;
-        }
-        map.set('mouseX', newMouseX);
-        map.set('mouseY', newMouseY);
-      });
+      const { canvasWidth, canvasHeight } = config.view;
+      return state
+        .update('mouseX', mouseX =>
+          Math.min(Math.max(0, mouseX + x), canvasWidth)
+        )
+        .update('mouseY', mouseY =>
+          Math.min(Math.max(0, mouseY + y), canvasHeight)
+        );
     }
     default:
       return state;
