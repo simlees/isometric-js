@@ -1,8 +1,11 @@
 import { createSelector } from 'reselect';
+import config from '../config';
 
-export const getCamera = state => state.camera;
+const getCamera = state => state.camera;
 
-export const getCameraIsMoving = camera => camera.get('isMoving');
+const getCameraIsMovingDirections = createSelector(getCamera, camera =>
+  camera.get('isMovingDirections')
+);
 
 const createCameraSelector = setting =>
   createSelector([getCamera], camera => camera.get(setting));
@@ -12,29 +15,43 @@ export const getCameraZoom = createCameraSelector('zoom');
 export const getMouseX = createCameraSelector('mouseX');
 export const getMouseY = createCameraSelector('mouseY');
 
-export const getCameraMovementVector = createSelector(
-  [getCameraIsMoving],
-  isMoving => {
-    let x = 0;
-    let y = 0;
-    const movementSpeed = 3;
-    if (isMoving.get('left')) {
-      x += movementSpeed;
-    }
-    if (isMoving.get('up')) {
-      y += movementSpeed;
-    }
-    if (isMoving.get('right')) {
-      x -= movementSpeed;
-    }
-    if (isMoving.get('down')) {
-      y -= movementSpeed;
-    }
-    return [x, y];
-  }
-);
-
 export const getCameraOffset = createSelector([getCamera], camera => [
   camera.get('xPos'),
   camera.get('yPos'),
 ]);
+
+export const getCameraMovementVector = createSelector(
+  [getCameraIsMovingDirections, getMouseX, getMouseY],
+  (isMovingDirections, mouseX, mouseY) => {
+    const { canvasWidth, canvasHeight } = config.view;
+    let x = 0;
+    let y = 0;
+    const arrowMovementSpeed = 5;
+    const cursorMovementSpeed = 14;
+    if (mouseX === 0) {
+      x += cursorMovementSpeed;
+    } else if (mouseX === canvasWidth) {
+      x -= cursorMovementSpeed;
+    } else {
+      if (isMovingDirections.get('left')) {
+        x += arrowMovementSpeed;
+      }
+      if (isMovingDirections.get('right')) {
+        x -= arrowMovementSpeed;
+      }
+    }
+    if (mouseY === 0) {
+      y += cursorMovementSpeed;
+    } else if (mouseY === canvasHeight) {
+      y -= cursorMovementSpeed;
+    } else {
+      if (isMovingDirections.get('up')) {
+        y += arrowMovementSpeed;
+      }
+      if (isMovingDirections.get('down')) {
+        y -= arrowMovementSpeed;
+      }
+    }
+    return [x, y];
+  }
+);
