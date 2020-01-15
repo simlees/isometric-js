@@ -10,7 +10,6 @@ import {
   getMouseY,
 } from '../selectors/cameraSelectors';
 import { getTileCoords } from '../utils/worldUtils';
-import { cartesianToIsometric, isometricToCartesian } from '../utils/viewUtils';
 
 let _assets, _ctx, _store, _config, _canvasWidth, _canvasHeight, _canvas;
 
@@ -90,11 +89,6 @@ function draw(state) {
   const zoom = getCameraZoom(state);
   const mouseX = getMouseX(state);
   const mouseY = getMouseY(state);
-
-  const p = {
-    cartesianToIsometric,
-    isometricToCartesian,
-  };
 
   const rotation = getCameraRotation(state);
   _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
