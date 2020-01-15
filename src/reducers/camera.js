@@ -63,7 +63,6 @@ export default function camera(state = initialState, action) {
         map.update('xPos', xPos => xPos * diffFactor);
         map.update('yPos', yPos => yPos * diffFactor);
         map.set('zoom', next);
-        // return next;
       });
       return state;
     }
@@ -74,8 +73,6 @@ export default function camera(state = initialState, action) {
     }
     case MOUSE_MOVE: {
       const { x, y } = action;
-      // state = state.update('mouseX', mouseX => mouseX + x);
-      // return state.update('mouseY', mouseY => mouseY + y);
 
       return state.withMutations(map => {
         const { canvasWidth, canvasHeight } = config.view;
@@ -101,7 +98,6 @@ export default function camera(state = initialState, action) {
         }
         map.set('mouseX', newMouseX);
         map.set('mouseY', newMouseY);
-        console.log(cameraMoveX, cameraMoveY);
         map.update('xPos', xPos => xPos - cameraMoveX);
         map.update('yPos', yPos => yPos - cameraMoveY);
       });

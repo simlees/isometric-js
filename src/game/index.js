@@ -43,7 +43,6 @@ function setUpControls() {
       });
     }
   };
-  // document.addEventListener("mousemove", mouseMoveHandler, false);
 
   _canvas.requestPointerLock =
     _canvas.requestPointerLock || _canvas.mozRequestPointerLock;
@@ -96,7 +95,7 @@ function draw(state) {
   tileHeight = zoom / 2;
   _ctx.save();
   const [xOffset, yOffset] = getCameraOffset(state);
-  _ctx.translate(_canvasWidth / 2 + xOffset, 100 + yOffset);
+  _ctx.translate(_canvasWidth / 2 + xOffset, _canvasHeight / 2 + yOffset);
 
   for (let x = 0; x < (rotation % 2 ? worldHeight : worldWidth); x++) {
     for (let y = 0; y < (rotation % 2 ? worldWidth : worldHeight); y++) {
