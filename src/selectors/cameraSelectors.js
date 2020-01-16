@@ -55,3 +55,14 @@ export const getCameraMovementVector = createSelector(
     return [x, y];
   }
 );
+
+export const getGridOffset = createSelector(
+  [getCameraOffset, getCameraZoom],
+  ([xOffset, yOffset], zoom) => {
+    const x_pos = xOffset / zoom;
+    const y_pos = yOffset / (zoom / 2);
+    const x_grid = x_pos + y_pos;
+    const y_grid = x_pos - y_pos;
+    return [Math.round(x_grid), Math.round(y_grid)]; // TODO - remove rounding
+  }
+);

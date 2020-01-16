@@ -6,6 +6,7 @@ import {
   getCameraOffset,
   getCameraRotation,
   getCameraZoom,
+  getGridOffset,
   getMouseX,
   getMouseY,
 } from '../selectors/cameraSelectors';
@@ -46,6 +47,7 @@ const mapStateToProps = state => ({
   rotation: getCameraRotation(state),
   worldSize: getWorldSize(state),
   offset: getCameraOffset(state),
+  gridOffset: getGridOffset(state),
   zoom: getCameraZoom(state),
   mouseX: getMouseX(state),
   mouseY: getMouseY(state),
@@ -55,6 +57,7 @@ const DebugOverlay = ({
   rotation,
   zoom,
   offset: [xOffset, yOffset],
+  gridOffset: [gridXOffset, gridYOffset],
   mouseX,
   mouseY,
   worldSize: [xSize, ySize],
@@ -68,14 +71,17 @@ const DebugOverlay = ({
   const getWorldCorner = (...args) => worldCorners[getRotationIndex(...args)];
   return (
     <Overlay>
-      <DataPoint left={0} bottom="15%">
-        <div>R: {rotation}</div>
-        <div>Z: {zoom}</div>
+      <DataPoint left={0} bottom="10%">
+        <div>Rot: {rotation}</div>
+        <div>Zoo: {zoom}</div>
         <div>
-          M: [{mouseX}, {mouseY}]
+          Mou: [{mouseX}, {mouseY}]
         </div>
         <div>
-          C: [{xOffset}, {yOffset}]
+          Cam: [{xOffset}, {yOffset}]
+        </div>
+        <div>
+          Iso: [{gridXOffset}, {gridYOffset}]
         </div>
       </DataPoint>
       <DataPoint top={0} right="50%">
