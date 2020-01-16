@@ -51,7 +51,7 @@ const mapStateToProps = state => ({
   mouseY: getMouseY(state),
 });
 
-const DebuggingOverlay = ({
+const DebugOverlay = ({
   rotation,
   zoom,
   offset: [xOffset, yOffset],
@@ -132,4 +132,4 @@ const DebuggingOverlay = ({
   );
 };
 
-export default connect(mapStateToProps)(DebuggingOverlay);
+export default connect(mapStateToProps)(DebugOverlay);

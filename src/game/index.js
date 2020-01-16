@@ -1,4 +1,8 @@
-import { GAME_TICK, MOUSE_MOVE } from '../constants/actionTypes';
+import {
+  GAME_TICK,
+  MOUSE_MOVE,
+  HOLDABLE_ACTION_TYPES,
+} from '../constants/actionTypes';
 import {
   getCameraOffset,
   getCameraRotation,
@@ -36,10 +40,11 @@ function setUpControls() {
   const keyMap = configUtils.getKeyMapFromConfig(_config.keyMapping);
   const keyHandler = e => {
     const action = keyMap[e.keyCode];
-    if (action) {
+    const isPressed = e.type === 'keydown';
+    if (action && (HOLDABLE_ACTION_TYPES[action] || !isPressed)) {
       _store.dispatch({
         type: action,
-        isPressed: e.type === 'keydown',
+        isPressed,
       });
     }
   };

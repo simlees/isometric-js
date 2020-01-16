@@ -22,7 +22,6 @@ class Game extends Component {
           onReady={this.start}
           width={canvasWidth}
           height={canvasHeight}
-          showDebuggingOverlay={true}
         />
       </Provider>
     );

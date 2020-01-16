@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import styled from 'styled-components';
-import DebuggingOverlay from './DebuggingOverlay';
+import { getShowDebugOverlay } from '../selectors/userInterfaceSelectors';
+import DebugOverlay from './DebugOverlay';
 
 const CanvasWrapper = styled.div`
   background-color: blue;
@@ -8,18 +10,22 @@ const CanvasWrapper = styled.div`
   position: relative;
 `;
 
-export default class Canvas extends Component {
+class Canvas extends Component {
   componentDidMount() {
     this.props.onReady();
   }
 
   render() {
-    const { width, height, showDebuggingOverlay } = this.props;
+    const { width, height, showDebugOverlay } = this.props;
     return (
       <CanvasWrapper>
         <canvas id="game-canvas" width={width} height={height} />
-        {showDebuggingOverlay && <DebuggingOverlay />}
+        {showDebugOverlay && <DebugOverlay />}
       </CanvasWrapper>
     );
   }
 }
+
+export default connect(state => ({
+  showDebugOverlay: getShowDebugOverlay(state),
+}))(Canvas);
