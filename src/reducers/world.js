@@ -5,9 +5,9 @@ import { fromJS } from 'immutable';
 // "../constants/actionTypes";
 
 const initialState = fromJS([
-  [1, 1, 'blockShort', 1, 'blockTall', 1],
+  [1, 1, 'blockShort', 1, 'blockTall', 'tree'],
   ['blockTall', 1, 'blockShort', 1, 'blockShort', 'tile'],
-  [1, 1, 'block', 1, 'blockTall', 1],
+  [1, 'tree', 'block', 1, 'blockTall', 1],
   ['block', 'tile', 'block', 1, 'blockTall', 1][
     (1, 1, 'blockShort', 1, 'blockTall', 1)
   ],

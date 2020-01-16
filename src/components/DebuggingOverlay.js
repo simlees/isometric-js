@@ -17,6 +17,7 @@ const Overlay = styled.div`
   bottom: 0;
   left: 0;
   pointer-events: none;
+  font-family: monospace;
 `;
 
 const Positioned = styled.div`
@@ -44,8 +45,6 @@ const mapStateToProps = state => ({
   mouseY: getMouseY(state),
 });
 
-const formatNum = num => parseFloat(num.toFixed(1));
-
 const DebuggingOverlay = ({
   rotation,
   zoom,
@@ -55,15 +54,15 @@ const DebuggingOverlay = ({
   worldSize: [xSize, ySize],
 }) => {
   const worldCorners = [
-    `[0, 0]`,
-    `[0, ${ySize}]`,
-    `[${xSize}, ${ySize}]`,
-    `[${xSize}, 0]`,
+    `[0,0]`,
+    `[0,${ySize}]`,
+    `[${xSize},${ySize}]`,
+    `[${xSize},0]`,
   ];
   const getWorldCorner = (...args) => worldCorners[getRotationIndex(...args)];
   return (
     <Overlay>
-      <Positioned left={0} bottom="20%">
+      <Positioned left={0} bottom="15%">
         <div>R: {rotation}</div>
         <div>Z: {zoom}</div>
         <div>

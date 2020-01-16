@@ -7,6 +7,7 @@ export default {
       block: 'dia2.png',
       blockTall: 'dia3.png',
       blockShort: 'dia4.png',
+      tree: 'tree.png',
     },
     ui: {
       cursor: 'cursor.png',
