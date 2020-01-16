@@ -2,12 +2,13 @@
 export const GAME_TICK = 'gameTick';
 
 // CAMERA + MOUSE
-export const CAMERA_LEFT = 'cameraLeft';
-export const CAMERA_UP = 'cameraUp';
-export const CAMERA_RIGHT = 'cameraRight';
-export const CAMERA_DOWN = 'cameraDown';
-export const CAMERA_ROTATE_CLOCKWISE = 'cameraRotateClockwise';
-export const CAMERA_ROTATE_COUNTER_CLOCKWISE = 'cameraRotateCounterClockwise';
-export const CAMERA_CYCLE_ZOOM = 'cameraCycleZoom';
-export const MOUSE_MOVE = 'mouseMove';
-export const MOUSE_CLICK = 'mouseClick';
+export const CAMERA_LEFT = 'CAMERA_LEFT';
+export const CAMERA_UP = 'CAMERA_UP';
+export const CAMERA_RIGHT = 'CAMERA_RIGHT';
+export const CAMERA_DOWN = 'CAMERA_DOWN';
+export const CAMERA_ROTATE_CLOCKWISE = 'CAMERA_ROTATE_CLOCKWISE';
+export const CAMERA_ROTATE_COUNTER_CLOCKWISE =
+  'CAMERA_ROTATE_COUNTER_CLOCKWISE';
+export const CAMERA_CYCLE_ZOOM = 'CAMERA_CYCLE_ZOOM';
+export const MOUSE_MOVE = 'MOUSE_MOVE';
+export const MOUSE_CLICK = 'MOUSE_CLICK';

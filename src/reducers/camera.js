@@ -28,10 +28,10 @@ const initialState = fromJS({
   mouseY: config.view.canvasHeight / 2,
 });
 
-const holdableActions = [CAMERA_LEFT, CAMERA_UP, CAMERA_RIGHT, CAMERA_DOWN];
+const holdableActions = { CAMERA_LEFT, CAMERA_UP, CAMERA_RIGHT, CAMERA_DOWN };
 
 export default function camera(state = initialState, action) {
-  if (!holdableActions.includes(action.type) && action.isPressed === true) {
+  if (!holdableActions[action.type] && action.isPressed === true) {
     return state;
   }
   switch (action.type) {
