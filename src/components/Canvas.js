@@ -1,4 +1,10 @@
 import React, { Component } from 'react';
+import styled from 'styled-components';
+
+const CanvasWrapper = styled.div`
+  background-color: blue;
+  display: inline-block;
+`;
 
 export default class Canvas extends Component {
   componentDidMount() {
@@ -7,6 +13,10 @@ export default class Canvas extends Component {
 
   render() {
     const { width, height } = this.props;
-    return <canvas id="game-canvas" width={width} height={height} />;
+    return (
+      <CanvasWrapper>
+        <canvas id="game-canvas" width={width} height={height} />
+      </CanvasWrapper>
+    );
   }
 }
