@@ -86,8 +86,6 @@ function gameLoop() {
   _store.dispatch({ type: GAME_TICK });
 }
 
-var tileWidth, tileHeight;
-
 function draw(state) {
   const world = getWorld(state);
   const [worldWidth, worldHeight] = getWorldSize(state);
@@ -96,13 +94,13 @@ function draw(state) {
   const mouseY = getMouseY(state);
   const [worldScreenWidth, worldScreenHeight] = getWorldScreenSize(state);
   const rotation = getCameraRotation(state);
+
+  // Determines what point to start rendering world from
   const diff = worldWidth - worldHeight;
   const xWorldOffset = (diff / 4) * zoom;
   const xWorldOffsetWithRotation = rotation % 2 ? -xWorldOffset : xWorldOffset;
 
   _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
-  tileWidth = zoom;
-  tileHeight = zoom / 2;
   _ctx.save();
   const [xCameraOffset, yCameraOffset] = getCameraOffset(state);
   _ctx.translate(
@@ -115,7 +113,8 @@ function draw(state) {
       drawTile(
         x,
         y,
-        world.getIn(getTileCoords(x, y, worldWidth, worldHeight, rotation))
+        world.getIn(getTileCoords(x, y, worldWidth, worldHeight, rotation)),
+        zoom
       );
     }
   }
@@ -127,7 +126,8 @@ function draw(state) {
   }
 }
 
-function drawTile(x, y, tile) {
+function drawTile(x, y, tile, tileWidth) {
+  const tileHeight = tileWidth / 2;
   _ctx.save();
   _ctx.translate(((x - y) * tileWidth) / 2, ((x + y) * tileHeight) / 2);
 
