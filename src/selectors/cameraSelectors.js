@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import config from '../config';
+import { getWorldSize } from './worldSelectors';
 
 const getCamera = state => state.camera;
 
@@ -64,5 +65,13 @@ export const getGridOffset = createSelector(
     const x_grid = x_pos + y_pos;
     const y_grid = x_pos - y_pos;
     return [Math.round(x_grid), Math.round(y_grid)]; // TODO - remove rounding
+  }
+);
+
+export const getWorldScreenSize = createSelector(
+  [getWorldSize, getCameraZoom],
+  ([worldX, worldY], zoom) => {
+    const size = ((worldX + worldY) / 2) * zoom;
+    return [size, size / 2];
   }
 );

@@ -9,6 +9,7 @@ import {
   getCameraZoom,
   getMouseX,
   getMouseY,
+  getWorldScreenSize,
 } from '../selectors/cameraSelectors';
 import { getWorld, getWorldSize } from '../selectors/worldSelectors';
 import { loadAssets } from '../utils/assetUtils';
@@ -93,14 +94,21 @@ function draw(state) {
   const zoom = getCameraZoom(state);
   const mouseX = getMouseX(state);
   const mouseY = getMouseY(state);
-
+  const [worldScreenWidth, worldScreenHeight] = getWorldScreenSize(state);
   const rotation = getCameraRotation(state);
+  const diff = worldWidth - worldHeight;
+  const xWorldOffset = (diff / 4) * zoom;
+  const xWorldOffsetWithRotation = rotation % 2 ? -xWorldOffset : xWorldOffset;
+
   _ctx.clearRect(0, 0, _canvasWidth, _canvasHeight);
   tileWidth = zoom;
   tileHeight = zoom / 2;
   _ctx.save();
-  const [xOffset, yOffset] = getCameraOffset(state);
-  _ctx.translate(_canvasWidth / 2 + xOffset, _canvasHeight / 2 + yOffset);
+  const [xCameraOffset, yCameraOffset] = getCameraOffset(state);
+  _ctx.translate(
+    _canvasWidth / 2 - xWorldOffsetWithRotation + xCameraOffset,
+    _canvasHeight / 2 - worldScreenHeight / 2 + yCameraOffset
+  );
 
   for (let x = 0; x < (rotation % 2 ? worldHeight : worldWidth); x++) {
     for (let y = 0; y < (rotation % 2 ? worldWidth : worldHeight); y++) {
