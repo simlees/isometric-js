@@ -43,12 +43,24 @@ export default function camera(state = initialState, action) {
       return state.setIn(['isMovingDirections', 'down'], action.isPressed);
     }
     case CAMERA_ROTATE_CLOCKWISE: {
-      state = state.update('rotation', rotation => (rotation + 1) % 4);
-      // TODO transform xPos + yPos
-      return state;
+      const xPos = state.get('xPos');
+      const yPos = state.get('yPos');
+      return state.withMutations(mut =>
+        mut
+          .update('rotation', rotation => (rotation + 1) % 4)
+          .set('xPos', -(yPos * 2))
+          .set('yPos', xPos / 2)
+      );
     }
     case CAMERA_ROTATE_COUNTER_CLOCKWISE: {
-      return state.update('rotation', rotation => (rotation + 3) % 4);
+      const xPos = state.get('xPos');
+      const yPos = state.get('yPos');
+      return state.withMutations(mut =>
+        mut
+          .update('rotation', rotation => (rotation + 3) % 4)
+          .set('xPos', yPos * 2)
+          .set('yPos', -(xPos / 2))
+      );
     }
     case CAMERA_CYCLE_ZOOM: {
       state = state.withMutations(map => {
